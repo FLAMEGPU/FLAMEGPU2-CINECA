@@ -4,6 +4,8 @@ This repository contains selected example models for profiling during the hackat
 * **boids_spatial3D**: Reynolds boids flocking model with 3D spatial messaging communication.
 * **boids_rtc_spatial3D**: boids_spatial3D, implemented with runtime compiled (RTC) agent functions.
 
+[Video](https://youtu.be/4GTOQvdV5Mg) of how these models looks is available here.
+
 ## Dependencies
 
 The dependencies below are required for building FLAME GPU 2 projects.
