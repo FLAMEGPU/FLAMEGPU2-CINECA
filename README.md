@@ -52,14 +52,16 @@ ALL_BUILD.sln
 
 The below commands will execute the respective models for several steps, and generate both a timeline and full Nsight Compute data collection.
 
-**boids_spatial3D**
+### boids_spatial3D
 ```
 nsys profile -o boids_timeline ./bin/linux/Release/boids_spatial3D -s 10
 ncu --set full -o boids_ncu ./bin/linux/Release/boids_spatial3D -s 5
 ```
 
-**boids_rtc_spatial3D**
+### boids_rtc_spatial3D
+
 *Note: On first run RTC agent functions will be compiled at runtime, this may take upto 2 minutes to complete. Further runs will pull the precompiled agent functions from a cache. RTC cache hits will fail if the body of the agent function, the dynamic RTC header or the underlying FLAMEGPU2 lib commit hash has changed.*
+
 ```
 nsys profile -o boids_rtc_timeline ./bin/linux/Release/boids_rtc_spatial3D -s 10
 ncu --set full -o boids_rtc_ncu ./bin/linux/Release/boids_rtc_spatial3D -s 5
