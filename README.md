@@ -34,7 +34,7 @@ These commands can be used to build a high performance version, capable of execu
 
 ```
 mkdir -p build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCUDA_ARCH=70 -DSEATBELTS=OFF -DUSE_NVTX=ON
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCUDA_ARCH=70 -DSEATBELTS=OFF -DEXPORT_RTC_SOURCES=ON -DUSE_NVTX=ON
 cmake --build . -j `nproc` --target all
 ```
 
@@ -43,7 +43,7 @@ cmake --build . -j `nproc` --target all
 FLAMEGPU2 is cross platform, so can be built on Windows too, however you may wish to update `CUDA_ARCH=70` if you don't have a volta GPU.
 ```
 mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCUDA_ARCH=70 -DSEATBELTS=OFF -DUSE_NVTX=ON -A x64
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCUDA_ARCH=70 -DSEATBELTS=OFF -DUSE_NVTX=ON -DEXPORT_RTC_SOURCES=ON -A x64
 ALL_BUILD.sln
 ```
 
