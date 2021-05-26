@@ -1,8 +1,8 @@
 # FLAME GPU 2 CINECIA Hackathon
 This repository contains selected example models for profiling during the hackathon.
 
-**boids_spatial3D**: Reynolds boids flocking model with 3D spatial messaging communication.
-**boids_rtc_spatial3D**: boids_spatial3D, implemented with runtime compiled (RTC) agent functions.
+* **boids_spatial3D**: Reynolds boids flocking model with 3D spatial messaging communication.
+* **boids_rtc_spatial3D**: boids_spatial3D, implemented with runtime compiled (RTC) agent functions.
 
 ## Dependencies
 
@@ -50,17 +50,17 @@ ALL_BUILD.sln
 
 ## Running The Examples
 
-The below commands will execute the respective models for 10 steps, and generate both a timeline and full Nsight Compute data collection.
+The below commands will execute the respective models for several steps, and generate both a timeline and full Nsight Compute data collection.
 
 **boids_spatial3D**
 ```
-nsys profile -o timeline_file ./bin/linux/Release/boids_spatial3D -s 10
-ncu --set full -o ncu_file ./bin/linux/Release/boids_spatial3D -s 10
+nsys profile -o boids_timeline ./bin/linux/Release/boids_spatial3D -s 10
+ncu --set full -o boids_ncu ./bin/linux/Release/boids_spatial3D -s 5
 ```
 
 **boids_rtc_spatial3D**
 *Note: On first run RTC agent functions will be compiled at runtime, this may take upto 2 minutes to complete. Further runs will pull the precompiled agent functions from a cache. RTC cache hits will fail if the body of the agent function, the dynamic RTC header or the underlying FLAMEGPU2 lib commit hash has changed.*
 ```
-nsys profile -o timeline_file ./bin/linux/Release/boids_rtc_spatial3D -s 10
-ncu --set full -o ncu_file ./bin/linux/Release/boids_rtc_spatial3D -s 10
+nsys profile -o boids_rtc_timeline ./bin/linux/Release/boids_rtc_spatial3D -s 10
+ncu --set full -o boids_rtc_ncu ./bin/linux/Release/boids_rtc_spatial3D -s 5
 ```
