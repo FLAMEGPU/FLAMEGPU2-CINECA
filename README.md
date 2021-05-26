@@ -47,7 +47,6 @@ cmake .. -DCMAKE_BUILD_TYPE=Release -DCUDA_ARCH=70 -DSEATBELTS=OFF -DUSE_NVTX=ON
 ALL_BUILD.sln
 ```
 
-
 ## Running The Examples
 
 The below commands will execute the respective models for several steps, and generate both a timeline and full Nsight Compute data collection.
@@ -66,3 +65,13 @@ ncu --set full -o boids_ncu ./bin/linux/Release/boids_spatial3D -s 5
 nsys profile -o boids_rtc_timeline ./bin/linux/Release/boids_rtc_spatial3D -s 10
 ncu --set full -o boids_rtc_ncu ./bin/linux/Release/boids_rtc_spatial3D -s 5
 ```
+
+## Changing the Population Size
+
+The number of agents maps cleanly to the number of active threads, by default these models have 32768 agents each.
+
+In either `main.cu` file you can find the line `env.newProperty("POPULATION_TO_GENERATE", 32768u);`. This value controls the number of agents and can be updated to test different scales.
+
+## FLAMEGPU1
+
+FLAMEGPU1 versions of this model for comparison can be found in this branch of the FLAMEGPU repo: https://github.com/FLAMEGPU/FLAMEGPU/tree/boids-performance
