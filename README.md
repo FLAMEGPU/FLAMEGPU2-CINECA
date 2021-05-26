@@ -1,11 +1,8 @@
-# FLAME GPU 2 Template Example
-This repository acts as an example to be used as a template for creating standalone FLAME GPU 2 projects.
+# FLAME GPU 2 CINECIA Hackathon
+This repository contains selected example models for profiling during the hackathon.
 
-[FLAMEGPU2](https://github.com/FLAMEGPU/FLAMEGPU2) is downloaded via CMake and configured as a dependency of the project.
-
-Currently, it uses the version of FLAME GPU 2 from master, this can be changed locally by setting the CMake variable `FLAMEGPU2_Version` to point to a different git branch or tag. You can also change it for all users, by changing `cmake/flamegpu2.cmake:5` which provides the default value.
-
-For details on how to develop a model using FLAME GPU 2, refer to the [user guide & api documentation](https://docs.flamegpu.com/).
+**boids_spatial3D**: Reynolds boids flocking model with 3D spatial messaging communication.
+**boids_rtc_spatial3D**: boids_spatial3D, implemented with runtime compiled (RTC) agent functions.
 
 ## Dependencies
 
@@ -25,7 +22,7 @@ The dependencies below are required for building FLAME GPU 2 projects.
   * Visual Studio 2015 or higher (2019 recommended)
 
 
-## Building FLAME GPU 2
+## Building FLAME GPU 2 and the Examples
 
 FLAME GPU 2 uses [CMake](https://cmake.org/), as a cross-platform process, for configuring and generating build directives, e.g. `Makefile` or `.vcxproj`. This is used to build the FLAMEGPU2 library, examples, tests and documentation.
 
@@ -33,36 +30,37 @@ Below the core commands are provided, for the full guide refer to the main [FLAM
 
 ### Linux
 
-Under Linux, `cmake` can be used to generate makefiles specific to your system:
+These commands can be used to build a high performance version, capable of executing on Marconi for profiling:
 
 ```
 mkdir -p build && cd build
-cmake .. 
-make -j8
-```
-
-The option `-j8` enables parallel compilation using upto 8 threads, this is recommended to improve build times.
-
-By default a `Makefile` for the `Release` build configuration will be generated.
-
-Alternatively, using `-DCMAKE_BUILD_TYPE=`, `Debug` or `Profile` build configurations can be generated:
- 
-```
-mkdir -p build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Profile
-make -j8
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCUDA_ARCH=70 -DSEATBELTS=OFF -DUSE_NVTX=ON
+cmake --build . -j `nproc` --target all
 ```
 
 ### Windows
 
-*Note: If installing CMake on Windows ensure CMake is added to the system path, allowing `cmake` to be used via `cmd`, this option is disabled within the installer by default.*
-
-When generating Visual studio project files, using `cmake` (or `cmake-gui`), the platform **must** be specified as `x64`.
-
-Using `cmake` this takes the form `-A x64`:
-
+FLAMEGPU2 is cross platform, so can be built on Windows too, however you may wish to update `CUDA_ARCH=70` if you don't have a volta GPU.
 ```
 mkdir build && cd build
-cmake .. -A x64
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCUDA_ARCH=70 -DSEATBELTS=OFF -DUSE_NVTX=ON -A x64
 ALL_BUILD.sln
+```
+
+
+## Running The Examples
+
+The below commands will execute the respective models for 10 steps, and generate both a timeline and full Nsight Compute data collection.
+
+**boids_spatial3D**
+```
+nsys profile -o timeline_file ./bin/linux/Release/boids_spatial3D -s 10
+ncu --set full -o ncu_file ./bin/linux/Release/boids_spatial3D -s 10
+```
+
+**boids_rtc_spatial3D**
+*Note: On first run RTC agent functions will be compiled at runtime, this may take upto 2 minutes to complete. Further runs will pull the precompiled agent functions from a cache. RTC cache hits will fail if the body of the agent function, the dynamic RTC header or the underlying FLAMEGPU2 lib commit hash has changed.*
+```
+nsys profile -o timeline_file ./bin/linux/Release/boids_rtc_spatial3D -s 10
+ncu --set full -o ncu_file ./bin/linux/Release/boids_rtc_spatial3D -s 10
 ```
