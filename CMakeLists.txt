@@ -6,11 +6,6 @@ project(wrapper CUDA CXX)
       
 # Our core dependency is FLAMEGPU2 lib, first lets find it
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/flamegpu2.cmake)
-# Now disable extra bells/whistles and add flamegpu2 as a dependency
-set(NO_EXAMPLES ON CACHE INTERNAL "-")
-set(BUILD_TESTS OFF CACHE BOOL "-")
-mark_as_advanced(FORCE BUILD_TESTS)
-add_subdirectory(${FLAMEGPU_ROOT})
 
 # Option to enable/disable building the visualisation
 option(VISUALISATION "Enable visualisation support" OFF)
