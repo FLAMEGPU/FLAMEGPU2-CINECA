@@ -49,6 +49,17 @@ cmake .. -DCMAKE_BUILD_TYPE=Release -DCUDA_ARCH=70 -DSEATBELTS=OFF -DUSE_NVTX=ON
 ALL_BUILD.sln
 ```
 
+### Configuring with an out-of-tree FLAMEGPU2
+
+The relevant version of the main FLAMEGPU2 repository will be downloaded via CMake/git at configure time, into `<build>/_deps/FLAMEGPU2-src`.
+Instead, you can provide your own local copy of FLAMEGPU2, via `FETCHCONTENT_SOURCE_DIR_FLAMEGPU2`. This will only re-use source files, and not re-use any build directories on disk at the other local location.
+
+i.e.
+```bash
+cmake .. -DFETCHCONTENT_SOURCE_DIR_FLAMEGPU2=/path/to/FLAMEGPU2
+```
+
+
 ## Running The Examples
 
 The below commands will execute the respective models for several steps, and generate both a timeline and full Nsight Compute data collection.
