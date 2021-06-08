@@ -13,18 +13,19 @@
 #SBATCH -e job.%J.err
 #SBATCH -o job.%J.out
 
-export TMPDIR=$CINECA_SCRATCH/tmp-$user 
-mkdir -j $CINECA_SCRATCH/tmp-$user
+export TMPDIR=$CINECA_SCRATCH/tmp 
+mkdir -p $CINECA_SCRATCH/tmp
 module load cuda/11.0
+module load hpc-sdk/2021--binary
 
 cd build/bin/linux-x64/Release
 
 #fgpu2
-nsys profile -o f2-boids-s3d-82k-s5 boids_spatial3D -s 5 -d 2
-ncu --set full -o f2-boids-s3d-82k-s5 boids_spatial3D -s 5 -d 2
+nsys profile --force-overwrite true -o f2-boids-s3d-82k-s5 boids_spatial3D -s 5
+ncu --set full --force-overwrite -o f2-boids-s3d-82k-s5 boids_spatial3D -s 5
 
 #fgpu2 rtc
-nsys profile -o f2-boids-rtc-s3d-82k-s5 boids_rtc_spatial3D -s 5 -d 2
-ncu --set full -o f2-boids-rtc-s3d-82k-s5 boids_rtc_spatial3D -s 5 -d 2
+nsys profile --force-overwrite true -o f2-boids-rtc-s3d-82k-s5 boids_rtc_spatial3D -s 5
+ncu --set full --force-overwrite -o f2-boids-rtc-s3d-82k-s5 boids_rtc_spatial3D -s 5
 
-# Run this script with srun profile.sh
+# Run this script with sbatch profile.sh

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Configure temp dir (important for nsight stuff and RTC cache)
-export TMPDIR=$CINECA_SCRATCH/tmp-$user 
-mkdir -j $CINECA_SCRATCH/tmp-$user
+export TMPDIR=$CINECA_SCRATCH/tmp
+mkdir -p $CINECA_SCRATCH/tmp
 # Load Modules
 module load cmake git gnu cuda/11.0
 # Clone Git
