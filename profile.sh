@@ -21,19 +21,19 @@ module load hpc-sdk/2021--binary
 cd build/bin/linux-x64/Release
 
 #fgpu2
-nsys profile --force-overwrite true -o f2-boids-s3d-163k-s5 boids_spatial3D -s 5
-ncu --set full --force-overwrite -o f2-boids-s3d-163k-s5 boids_spatial3D -s 5
+nsys profile --force-overwrite true -o f2-boids-s3d-163k-s5 boids_spatial3D -s 5 -r 12
+ncu --set full --force-overwrite -o f2-boids-s3d-163k-s5 boids_spatial3D -s 5 -r 12
 
 #fgpu2 rtc
-nsys profile --force-overwrite true -o f2-boids-rtc-s3d-163k-s5 boids_rtc_spatial3D -s 5
-ncu --set full --force-overwrite -o f2-boids-rtc-s3d-163k-s5 boids_rtc_spatial3D -s 5
+nsys profile --force-overwrite true -o f2-boids-rtc-s3d-163k-s5 boids_rtc_spatial3D -s 5 -r 12
+ncu --set full --force-overwrite -o f2-boids-rtc-s3d-163k-s5 boids_rtc_spatial3D -s 5 -r 12
 
 #fgpu2 rtc bf
-nsys profile --force-overwrite true -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5
-ncu --set full --force-overwrite -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5
+nsys profile --force-overwrite true -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5 -r 12
+ncu --set full --force-overwrite -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5 -r 12
 
 #fgpu2 rtc bf
-nsys profile --force-overwrite true -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5
-ncu --set full --force-overwrite -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5
+nsys profile --force-overwrite true -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5 -r 12
+ncu --set full --force-overwrite -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5 -r 12
 
 # Run this script with sbatch profile.sh
