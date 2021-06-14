@@ -28,9 +28,9 @@ ncu --set full --force-overwrite -o f2-boids-s3d-163k-s5 boids_spatial3D -s 5 -r
 nsys profile --force-overwrite true -o f2-boids-rtc-s3d-163k-s5 boids_rtc_spatial3D -s 5 -r 12
 ncu --set full --force-overwrite -o f2-boids-rtc-s3d-163k-s5 boids_rtc_spatial3D -s 5 -r 12
 
-#fgpu2 rtc bf
-nsys profile --force-overwrite true -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5 -r 12
-ncu --set full --force-overwrite -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5 -r 12
+#fgpu2 bf
+nsys profile --force-overwrite true -o f2-boids-bf-163k-s5 boids_bruteforce -s 5 -r 12
+ncu --set full --force-overwrite -o f2-boids-bf-163k-s5 boids_bruteforce -s 5 -r 12
 
 #fgpu2 rtc bf
 nsys profile --force-overwrite true -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5 -r 12
