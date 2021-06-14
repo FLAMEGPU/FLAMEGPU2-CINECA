@@ -295,11 +295,11 @@ int main(int argc, const char ** argv) {
         EnvironmentDescription &env = model.Environment();
 
         // Population size to generate, if no agents are loaded from disk
-        env.newProperty("POPULATION_TO_GENERATE", 81920u);
+        env.newProperty("POPULATION_TO_GENERATE", 163840u);
 
-        // Environment Bounds
-        env.newProperty("MIN_POSITION", -0.7f);
-        env.newProperty("MAX_POSITION", +0.7f);
+        // Environment Bounds 
+        env.newProperty("MIN_POSITION", -0.9f);
+        env.newProperty("MAX_POSITION", +0.9f);
 
         // Initialisation parameter(s)
         env.newProperty("MAX_INITIAL_SPEED", 1.0f);
