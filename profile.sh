@@ -13,8 +13,10 @@
 #SBATCH -e job.%J.err
 #SBATCH -o job.%J.out
 
-export TMPDIR=$CINECA_SCRATCH/tmp 
-mkdir -p $CINECA_SCRATCH/tmp
+#export TMPDIR=$CINECA_SCRATCH/tmp 
+#mkdir -p $CINECA_SCRATCH/tmp
+rm -rf /tmp/nvidia
+ln -s $TMPDIR /tmp/nvidia
 module load cuda/11.0
 module load hpc-sdk/2021--binary
 
@@ -35,5 +37,7 @@ ncu --set full --force-overwrite -o f2-boids-bf-163k-s5 boids_bruteforce -s 5 -r
 #fgpu2 rtc bf
 nsys profile --force-overwrite true -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5 -r 12
 ncu --set full --force-overwrite -o f2-boids-rtc-bf-163k-s5 boids_rtc_bruteforce -s 5 -r 12
+
+rm -rf /tmp/nvidia
 
 # Run this script with sbatch profile.sh
