@@ -10,6 +10,7 @@
 #SBATCH -A tra21_hackathon
 #SBATCH -p m100_usr_prod
 #SBATCH --qos=m100_qos_dbg     # for higher priority, max 2 hours 2 nodes
+#SBATCH --exclusive            # Request node exclusive to avoid coliding with other nsys users on same node
 #SBATCH -e job.%J.err
 #SBATCH -o job.%J.out
 
