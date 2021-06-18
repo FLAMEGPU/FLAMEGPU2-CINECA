@@ -25,11 +25,11 @@ cd build/bin/linux-x64/Release
 
 # concurrency-msg
 nsys profile --force-overwrite true -o concurrency-msg-v100 ./concurrency-msg  -s 1 -r 12
-ncu --set full --force-overwrite -o ./concurrency-msg-v100 ./concurrency-msg -s 1 -r 12
+# ncu --set full --force-overwrite -o ./concurrency-msg-v100 ./concurrency-msg -s 1 -r 12
 
 # concurrency-msg-birth-death
 nsys profile --force-overwrite true -o concurrency-msg-birth-death-v100 ./concurrency-msg-birth-death  -s 1 -r 12
-ncu --set full --force-overwrite -o ./concurrency-msg-birth-death-v100 ./concurrency-msg-birth-death -s 1 -r 12
+# ncu --set full --force-overwrite -o ./concurrency-msg-birth-death-v100 ./concurrency-msg-birth-death -s 1 -r 12
 
 rm -rf /tmp/nvidia
 
