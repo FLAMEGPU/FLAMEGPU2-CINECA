@@ -34,11 +34,12 @@ macro(create_project TARGET_DIR)
                                                          VS_DEBUGGER_COMMAND_ARGUMENTS "-s 10")
 endmacro()
 
-create_project(boids_spatial3D)
-create_project(boids_rtc_spatial3D)
-create_project(boids_bruteforce)
-create_project(boids_rtc_bruteforce)
+#create_project(boids_spatial3D)
+#create_project(boids_rtc_spatial3D)
+#create_project(boids_bruteforce)
+#create_project(boids_rtc_bruteforce)
 create_project(boids_spatial3D_rdc_off)
+create_project(boids_spatial3D_rdc_off_sorted)
 
 # Also set a startup project
 #set_property(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"  PROPERTY VS_STARTUP_PROJECT boids_spatial3D)
