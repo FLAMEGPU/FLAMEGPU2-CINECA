@@ -311,8 +311,8 @@ int main(int argc, const char ** argv) {
         env.newProperty("POPULATION_TO_GENERATE", 163840u);
 
         // Environment Bounds
-        env.newProperty("MIN_POSITION", -0.5f);
-        env.newProperty("MAX_POSITION", +0.5f);
+        env.newProperty("MIN_POSITION", -0.9f);
+        env.newProperty("MAX_POSITION", +0.9f);
 
         // Initialisation parameter(s)
         env.newProperty("MAX_INITIAL_SPEED", 1.0f);
