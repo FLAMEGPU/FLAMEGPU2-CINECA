@@ -40,6 +40,7 @@ endmacro()
 #create_project(boids_rtc_bruteforce)
 create_project(boids_spatial3D_rdc_off)
 create_project(boids_spatial3D_rdc_off_sorted)
+create_project(boids_spatial3D_rdc_off_bf)
 
 # Also set a startup project
 #set_property(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"  PROPERTY VS_STARTUP_PROJECT boids_spatial3D)

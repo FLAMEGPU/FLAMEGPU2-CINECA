@@ -47,6 +47,10 @@ ncu --set full --force-overwrite -o f2-boids-s3d-rdc_off-163k-s5 boids_spatial3D
 nsys profile --force-overwrite true -o f2-boids-s3d-rdc_off-sort-163k-s5 boids_spatial3D_rdc_off_sorted -s 5 -r 12
 ncu --set full --force-overwrite -o f2-boids-s3d-rdc_off-sort-163k-s5 boids_spatial3D_rdc_off_sorted -s 5 -r 12
 
+#fgpu2 rdc=false, brute force
+nsys profile --force-overwrite true -o f2-boids-bf-rdc_off-163k-s5 boids_spatial3D_rdc_off_bf -s 5 -r 12
+ncu --set full --force-overwrite -o f2-boids-bf-rdc_off-163k-s5 boids_spatial3D_rdc_off_bf -s 5 -r 
+
 rm -rf /tmp/nvidia
 
 # Run this script with sbatch profile.sh
