@@ -14,7 +14,7 @@ option(VISUALISATION "Enable visualisation support" OFF)
 include(${FLAMEGPU_ROOT}/cmake/common.cmake)
 
 # Define output location of binary files
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin/${CMAKE_SYSTEM_NAME_LOWER}-x64/${CMAKE_BUILD_TYPE}/)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE}/)
 
 macro(create_project TARGET_DIR)
       # Prepare list of source files

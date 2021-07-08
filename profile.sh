@@ -21,7 +21,7 @@ ln -s $TMPDIR /tmp/nvidia
 module load cuda/11.0
 module load hpc-sdk/2021--binary
 
-cd build/bin/linux-x64/Release
+cd build/bin/Release
 
 #fgpu2
 nsys profile --force-overwrite true -o f2-boids-s3d-163k-s5 boids_spatial3D -s 5 -r 12

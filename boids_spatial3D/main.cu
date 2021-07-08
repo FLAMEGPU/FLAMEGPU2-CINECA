@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "flamegpu/flame_api.h"
+#include "flamegpu/flamegpu.h"
 
 /**
  * FLAME GPU 2 implementation of the Boids model, using spatial3D messaging.
@@ -115,23 +115,23 @@ FLAMEGPU_HOST_DEVICE_FUNCTION void clampPosition(float &x, float &y, float &z, c
 /**
  * outputdata agent function for Boid agents, which outputs publicly visible properties to a message list
  */
-FLAMEGPU_AGENT_FUNCTION(outputdata, MsgNone, MsgSpatial3D) {
+FLAMEGPU_AGENT_FUNCTION(outputdata, flamegpu::MsgNone, flamegpu::MsgSpatial3D) {
     // Output each agents publicly visible properties.
-    FLAMEGPU->message_out.setVariable<id_t>("id", FLAMEGPU->getID());
+    FLAMEGPU->message_out.setVariable<flamegpu::id_t>("id", FLAMEGPU->getID());
     FLAMEGPU->message_out.setVariable<float>("x", FLAMEGPU->getVariable<float>("x"));
     FLAMEGPU->message_out.setVariable<float>("y", FLAMEGPU->getVariable<float>("y"));
     FLAMEGPU->message_out.setVariable<float>("z", FLAMEGPU->getVariable<float>("z"));
     FLAMEGPU->message_out.setVariable<float>("fx", FLAMEGPU->getVariable<float>("fx"));
     FLAMEGPU->message_out.setVariable<float>("fy", FLAMEGPU->getVariable<float>("fy"));
     FLAMEGPU->message_out.setVariable<float>("fz", FLAMEGPU->getVariable<float>("fz"));
-    return ALIVE;
+    return flamegpu::ALIVE;
 }
 /**
  * inputdata agent function for Boid agents, which reads data from neighbouring Boid agents, to perform the boid flocking model.
  */
-FLAMEGPU_AGENT_FUNCTION(inputdata, MsgSpatial3D, MsgNone) {
+FLAMEGPU_AGENT_FUNCTION(inputdata, flamegpu::MsgSpatial3D, flamegpu::MsgNone) {
     // Agent properties in local register
-    const int id = FLAMEGPU->getID();
+    const flamegpu::id_t id = FLAMEGPU->getID();
     // Agent position
     float agent_x = FLAMEGPU->getVariable<float>("x");
     float agent_y = FLAMEGPU->getVariable<float>("y");
@@ -163,14 +163,11 @@ FLAMEGPU_AGENT_FUNCTION(inputdata, MsgSpatial3D, MsgNone) {
     // Iterate location messages, accumulating relevant data and counts.
     for (const auto &message : FLAMEGPU->message_in(agent_x, agent_y, agent_z)) {
         // Ignore self messages.
-        if (message.getVariable<id_t>("id") != id) {
+        if (message.getVariable<flamegpu::id_t>("id") != id) {
             // Get the message location and velocity.
             const float message_x = message.getVariable<float>("x");
             const float message_y = message.getVariable<float>("y");
             const float message_z = message.getVariable<float>("z");
-            const float message_fx = message.getVariable<float>("fx");
-            const float message_fy = message.getVariable<float>("fy");
-            const float message_fz = message.getVariable<float>("fz");
 
             // Check interaction radius
             float separation = vec3Length(agent_x - message_x, agent_y - message_y, agent_z - message_z);
@@ -183,6 +180,9 @@ FLAMEGPU_AGENT_FUNCTION(inputdata, MsgSpatial3D, MsgNone) {
                 perceived_count++;
 
                 // Update percieved velocity matching
+                const float message_fx = message.getVariable<float>("fx");
+                const float message_fy = message.getVariable<float>("fy");
+                const float message_fz = message.getVariable<float>("fz");
                 global_velocity_x += message_fx;
                 global_velocity_y += message_fy;
                 global_velocity_z += message_fz;
@@ -282,17 +282,17 @@ FLAMEGPU_AGENT_FUNCTION(inputdata, MsgSpatial3D, MsgNone) {
     FLAMEGPU->setVariable<float>("fy", agent_fy);
     FLAMEGPU->setVariable<float>("fz", agent_fz);
 
-    return ALIVE;
+    return flamegpu::ALIVE;
 }
 
 int main(int argc, const char ** argv) {
-    ModelDescription model("boids_spatial3D");
+    flamegpu::ModelDescription model("boids_spatial3D");
 
     /**
      * GLOBALS
      */
      {
-        EnvironmentDescription &env = model.Environment();
+        flamegpu::EnvironmentDescription &env = model.Environment();
 
         // Population size to generate, if no agents are loaded from disk
         env.newProperty("POPULATION_TO_GENERATE", 163840u);
@@ -321,8 +321,8 @@ int main(int argc, const char ** argv) {
 
 
     {   // Location message
-        EnvironmentDescription &env = model.Environment();
-        MsgSpatial3D::Description &message = model.newMessage<MsgSpatial3D>("location");
+        flamegpu::EnvironmentDescription &env = model.Environment();
+        flamegpu::MsgSpatial3D::Description &message = model.newMessage<flamegpu::MsgSpatial3D>("location");
         // Set the range and bounds.
         message.setRadius(env.getProperty<float>("INTERACTION_RADIUS"));
         message.setMin(env.getProperty<float>("MIN_POSITION"), env.getProperty<float>("MIN_POSITION"), env.getProperty<float>("MIN_POSITION"));
@@ -339,7 +339,7 @@ int main(int argc, const char ** argv) {
         message.newVariable<float>("fz");
     }
     {   // Boid agent
-        AgentDescription &agent = model.newAgent("Boid");
+        flamegpu::AgentDescription &agent = model.newAgent("Boid");
         agent.newVariable<float>("x");
         agent.newVariable<float>("y");
         agent.newVariable<float>("z");
@@ -354,11 +354,11 @@ int main(int argc, const char ** argv) {
      * Control flow
      */     
     {   // Layer #1
-        LayerDescription &layer = model.newLayer();
+        flamegpu::LayerDescription &layer = model.newLayer();
         layer.addAgentFunction(outputdata);
     }
     {   // Layer #2
-        LayerDescription &layer = model.newLayer();
+        flamegpu::LayerDescription &layer = model.newLayer();
         layer.addAgentFunction(inputdata);
     }
 
@@ -366,15 +366,15 @@ int main(int argc, const char ** argv) {
     /**
      * Create Model Runner
      */
-    CUDASimulation cuda_model(model);
+    flamegpu::CUDASimulation cuda_model(model);
 
     /**
      * Create visualisation
      */
 #ifdef VISUALISATION
-    ModelVis &visualisation = cuda_model.getVisualisation();
+    flamegpu::visualiser::ModelVis &visualisation = cuda_model.getVisualisation();
     {
-        EnvironmentDescription &env = model.Environment();
+        flamegpu::EnvironmentDescription &env = model.Environment();
         float envWidth = env.getProperty<float>("MAX_POSITION") - env.getProperty<float>("MIN_POSITION");
         const float INIT_CAM = env.getProperty<float>("MAX_POSITION") * 1.25f;
         visualisation.setInitialCameraLocation(INIT_CAM, INIT_CAM, INIT_CAM);
@@ -385,7 +385,7 @@ int main(int argc, const char ** argv) {
         circ_agt.setForwardXVariable("fx");
         circ_agt.setForwardYVariable("fy");
         circ_agt.setForwardZVariable("fz");
-        circ_agt.setModel(Stock::Models::ICOSPHERE);
+        circ_agt.setModel(flamegpu::visualiser::Stock::Models::ICOSPHERE);
         circ_agt.setModelScale(env.getProperty<float>("SEPARATION_RADIUS"));
     }
     visualisation.activate();
@@ -396,7 +396,7 @@ int main(int argc, const char ** argv) {
 
     // If no xml model file was is provided, generate a population.
     if (cuda_model.getSimulationConfig().input_file.empty()) {
-        EnvironmentDescription &env = model.Environment();
+        flamegpu::EnvironmentDescription &env = model.Environment();
         // Uniformly distribute agents within space, with uniformly distributed initial velocity.
         // c++ random number generator engine
         std::mt19937 rngEngine(cuda_model.getSimulationConfig().random_seed);
@@ -409,9 +409,9 @@ int main(int argc, const char ** argv) {
 
         // Generate a population of agents, based on the relevant environment property
         const unsigned int populationSize = env.getProperty<unsigned int>("POPULATION_TO_GENERATE");
-        AgentVector population(model.Agent("Boid"), populationSize);
+        flamegpu::AgentVector population(model.Agent("Boid"), populationSize);
         for (unsigned int i = 0; i < populationSize; i++) {
-            AgentVector::Agent instance = population[i];
+            flamegpu::AgentVector::Agent instance = population[i];
 
             // Agent position in space
             instance.setVariable<float>("x", position_distribution(rngEngine));
