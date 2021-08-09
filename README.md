@@ -12,16 +12,15 @@ The dependencies below are required for building FLAME GPU 2 projects.
 
 ### Required
 
-* [CMake](https://cmake.org/) >= 3.12
-  * CMake 3.16 is known to have issues on certain platforms
-* [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) >= 10.0
-* [git](https://git-scm.com/): Required by CMake for downloading dependencies
-* *Linux:*
-  * [make](https://www.gnu.org/software/make/)
-  * gcc/g++ >= 6 (version requirements [here](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#system-requirements))
-      * gcc/g++ >= 7 required for the test suite 
-* *Windows:*
-  * Visual Studio 2015 or higher (2019 recommended)
++ [CMake](https://cmake.org/download/) `>= 3.18`
+  + CMake `>= 3.15` currently works, but support will be dropped in a future release.
++ [CUDA](https://developer.nvidia.com/cuda-downloads) `>= 11.0` and a Compute Capability `>= 3.5` NVIDIA GPU.
+  + CUDA `>= 10.0` currently works, but support will be dropped in a future release.
++ C++17 capable C++ compiler (host), compatible with the installed CUDA version
+  + [Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/) (Windows)
+  + [make](https://www.gnu.org/software/make/) and either [GCC](https://gcc.gnu.org/) `>= 7` or [Clang](https://clang.llvm.org/) `>= 5` (Linux)
+  + Older C++ compilers which support C++14 may currently work, but support will be dropped in a future release.
++ [git](https://git-scm.com/)
 
 
 ## Building FLAME GPU 2 and the Examples
