@@ -1,4 +1,3 @@
-# Set the minimum cmake version to that which supports cuda natively.
 cmake_minimum_required(VERSION VERSION 3.18 FATAL_ERROR)
 
 project(FLAMEGPU2-CINECA CUDA CXX)
