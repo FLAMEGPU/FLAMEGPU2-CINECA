@@ -1,5 +1,9 @@
 # FLAME GPU 2 CINECA Hackathon
 
+> **This Repository has been archived. It was only used during the 2021 CINECA GPU Hackathon and has not maintained compatibility with updated versions of FLAME GPU 2**
+
+---
+
 This repository contains selected example models for profiling during the hackathon.
 
 * **boids_spatial3D**: Reynolds boids flocking model with 3D spatial messaging communication.
